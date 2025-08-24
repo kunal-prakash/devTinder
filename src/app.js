@@ -63,12 +63,13 @@ app.patch("/user", async (req, res) => {
     // await User.findOneAndUpdate({_id: userId}, req.body);
     const user = await User.findByIdAndUpdate(userId, req.body, {
       returnDocument: "after",
+      runValidators: true, //Ensures that the update respects the schema validation rules
     });
     //defult returnDocument: "before" which returns the document before update
     console.log(user);
     res.send("User data updated successfully");
   } catch (err) {
-    res.status(400).send("Something went wrong");
+    res.status(400).send(`Update failed: ${err.message}`);
   }
 });
 
